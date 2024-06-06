@@ -119,7 +119,7 @@ void Enemy::turn(float elapsedSec)
 			m_Turn = false;
 			m_TurnedOnce = true;
 			m_Angle = float(m_MaxDegree);
-			m_Timer = 1.f;
+			m_Timer = m_TimerMax;
 		}
 		if (m_Angle < m_MinDegree)
 		{
@@ -127,7 +127,7 @@ void Enemy::turn(float elapsedSec)
 			m_Turn = false;
 			m_TurnedOnce = true;
 			m_Angle = float(m_MinDegree);
-			m_Timer = 1.f;
+			m_Timer = m_TimerMax;
 		}
 		m_Angle += m_currentIncrement * elapsedSec;
 	}
@@ -181,4 +181,14 @@ void Enemy::Reset()
 	m_Velocity = m_OriginalVelocity;
 	m_Timer = 1.f;
 	m_PowerUpTimer = 0.f;
+}
+
+void Enemy::SetSpeed(int speedIncrease)
+{
+	if (!m_GoingToEnd)
+		m_Velocity = -m_OriginalVelocity * (speedIncrease / 5.f);
+	else
+		m_Velocity = m_OriginalVelocity * (speedIncrease / 5.f);
+
+	m_TimerMax = 1 * ((10 - speedIncrease) / 5.f);
 }

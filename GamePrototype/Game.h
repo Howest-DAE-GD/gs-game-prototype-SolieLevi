@@ -55,6 +55,7 @@ private:
 	SVGParser map{};
 	std::vector<std::vector<Point2f>> m_Border;
 	float m_TextTimer{ 0.f };
+	int m_SpeedIncrease{5};
 
 	bool win{false};
 	// FUNCTIONS
@@ -67,4 +68,6 @@ private:
 	void Inputs(const Uint8* pStates);
 
 	Color4f GetColor(float timer) const;
+
+	bool m_Paused{ false };
 };

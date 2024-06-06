@@ -26,6 +26,8 @@ public:
 	void CheckSeen(Player& player);
 	void Calibrate(float scale,float offsetX,float offsetY);
 	void Reset();
+
+	void SetSpeed( int speedIncrease );
 private:
 	Point2f m_Center;
 	Color4f m_ConeColor;
@@ -41,6 +43,7 @@ private:
 	int m_currentIncrement{};
 
 	float m_Timer{ 0.f};
+	float m_TimerMax{1.f};
 
 	float m_Size{};
 
