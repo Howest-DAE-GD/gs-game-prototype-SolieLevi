@@ -39,7 +39,8 @@ void Enemy::Update(float elapsedSec)
 {
 	m_PowerUpTimer -= elapsedSec;
 	//matrix gebruike voor rotaties
-	if(m_Turn == false)
+	if(m_Turn == false&&
+		(m_Velocity.x != 0 || m_Velocity.y != 0))
 	{
 		m_Center += m_Velocity * elapsedSec;
 		m_Bounds.bottom += m_Velocity.y * elapsedSec;
@@ -83,15 +84,17 @@ void Enemy::Update(float elapsedSec)
 	}
 	else
 	{
-		turn(elapsedSec);
-		Matrix2x3 rotation{};
-		rotation.SetAsRotate(m_Angle);
-		Matrix2x3 translate{};
-		translate.SetAsTranslate(Vector2f{ m_Center.x + m_Size/2,m_Center.y + m_Size / 2 });
-		Matrix2x3 TR{ translate * rotation };
-		m_TransformedVisionCone = TR.Transform(m_VisionCone);
+		if((m_Velocity.x != 0 || m_Velocity.y != 0)){
+			turn(elapsedSec);
+			Matrix2x3 rotation{};
+			rotation.SetAsRotate(m_Angle);
+			Matrix2x3 translate{};
+			translate.SetAsTranslate(Vector2f{ m_Center.x + m_Size / 2,m_Center.y + m_Size / 2 });
+			Matrix2x3 TR{ translate * rotation };
+			m_TransformedVisionCone = TR.Transform(m_VisionCone);
+		}
 	}
-	m_Timer -= elapsedSec;
+	if (m_Velocity.x != 0 || m_Velocity.y != 0) m_Timer -= elapsedSec;
 }
 
 void Enemy::Draw() const
@@ -111,7 +114,8 @@ void Enemy::Draw() const
 void Enemy::turn(float elapsedSec)
 {
 	if(m_TurnedOnce == false) m_currentIncrement = m_AngleIncrement;
-	if (m_Timer < 0.f)
+	if (m_Timer < 0.f &&
+		(m_Velocity.x != 0 || m_Velocity.y != 0))
 	{
 		if (m_Angle > m_MaxDegree)
 		{

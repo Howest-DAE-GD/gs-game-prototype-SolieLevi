@@ -331,6 +331,8 @@ void Game::Reset()
 	m_PowerUp.Calibrate(scale, offsetX, offsetY);
 
 	m_SpeedIncrease = 5;
+
+	win = false;
 }
 
 Color4f Game::GetColor(float timer) const
